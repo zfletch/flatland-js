@@ -1,0 +1,9 @@
+Things that need doing:
+
+- rename confusing variables (eg canvas -> context)
+- animation (using requestAnimFrame probably)
+- populate shapes on start up instead of waiting for them to spawn and come on screen
+- better UI/controls
+- a few things are hard coded in the source that should be parameterized
+- add inverse power/logorithmic formula instead of linear for distance
+- add configuration options for changing size/frequency and other things
