@@ -20,6 +20,7 @@
             rays = 500,
             arc_size = Math.PI / 2,
             step = arc_size / rays,
+            set_point_in_bounds,
             player;
 
         // the canvas that shows what the swuare sees
@@ -38,20 +39,41 @@
             angle: 0,
             radius: 6
         });
-        //Flatland.player = player;
 
+        // given an orignal point and a second point,
+        // returns a new point that has the x and y coordinates
+        // of the new point only if they're inside the canvas's bounds
+        set_point_in_bounds = function (point, addpoint) {
+            var x = addpoint.x,
+                y = addpoint.y;
+
+            if (x > width || x < 0) {
+                x = point.x;
+            }
+            if (y > height || y < 0) {
+                y = point.y;
+            }
+
+            return new Flatland.Point({ x: x, y: y });
+        };
+
+        // control what happens on key press
+        // the right and left keys rotate the player
+        // and the up and down keys move forwards and backwards
         window.document.onkeydown = function (e) {
+            var point = new Flatland.Point({ x: player.center.x, y: player.center.y });
             if (e.keyCode === 37) { // left
                 player.angle = Flatland.formatAngle(player.angle - angle_speed);
             } else if (e.keyCode === 38) { // up
-                player.center.x += move_speed * Math.cos(player.angle);
-                player.center.y += move_speed * Math.sin(player.angle);
+                point.x += move_speed * Math.cos(player.angle);
+                point.y += move_speed * Math.sin(player.angle);
             } else if (e.keyCode === 39) { // right
                 player.angle = Flatland.formatAngle(player.angle + angle_speed);
             } else if (e.keyCode === 40) { // down
-                player.center.x -= move_speed * Math.cos(player.angle);
-                player.center.y -= move_speed * Math.sin(player.angle);
+                point.x -= move_speed * Math.cos(player.angle);
+                point.y -= move_speed * Math.sin(player.angle);
             }
+            player.center = set_point_in_bounds(player.center, point);
         };
 
         // the lines bordering the canvas
