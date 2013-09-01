@@ -5,9 +5,9 @@
 
     window.onload = function () {
         var canvas = window.document.getElementById('shapes'),
-            shapes = canvas.getContext('2d'),
+            context = canvas.getContext('2d'),
             viewcanvas = window.document.getElementById('view'),
-            viewshapes = viewcanvas.getContext('2d'),
+            viewcontext = viewcanvas.getContext('2d'),
             view,
             swap,
             move_speed = 5,
@@ -120,10 +120,10 @@
 
 
             // clear the canvases before doing anything
-            shapes.clearRect(0, 0, canvas.width, canvas.height);
-            viewshapes.clearRect(0, 0, viewcanvas.width, viewcanvas.height);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            viewcontext.clearRect(0, 0, viewcanvas.width, viewcanvas.height);
 
-            player.draw({ canvas: shapes });
+            player.draw({ context: context });
 
             // Draw the shapes and randomly decide where they'll go next,
             // Note that there's some hard coded 5x5 logic here too that
@@ -132,7 +132,7 @@
             for (ii = 0; ii < grid.length; ii += 1) {
                 if (grid[ii].resident) {
                     residents.push(grid[ii].resident);
-                    grid[ii].resident.draw({ canvas: shapes });
+                    grid[ii].resident.draw({ context: context });
                     if (!grid[ii].busy) {
                         random = Math.floor(Math.random() * 5);
                         if (random === 0) {
@@ -175,7 +175,7 @@
                     shapes: residents,
                     borders: borders,
                     draw: true,
-                    canvas: shapes
+                    context: context
                 });
                 if (intersection !== false) {
                     intersections.push(intersection);
@@ -183,7 +183,7 @@
             }
             view.draw({
                 intersections: intersections,
-                canvas: viewshapes
+                context: viewcontext
             });
         },
             interval);

@@ -80,13 +80,13 @@ Flatland = Flatland || {};
     // draws to the given context
     Flatland.LineSegment.prototype.draw = function (args) {
         var that = this,
-            canvas = args.canvas;
+            context = args.context;
 
-        canvas.beginPath();
-        canvas.moveTo(that.start.x, that.start.y);
-        canvas.lineTo(that.end.x, that.end.y);
-        canvas.closePath();
-        canvas.stroke();
+        context.beginPath();
+        context.moveTo(that.start.x, that.start.y);
+        context.lineTo(that.end.x, that.end.y);
+        context.closePath();
+        context.stroke();
 
         return that;
     };
@@ -235,22 +235,22 @@ Flatland = Flatland || {};
         return lines;
     };
 
-    // draw shape to the given canvas
+    // draw shape to the given context
     Flatland.Shape.prototype.draw = function (args) {
         var that = this,
             lines = that.getLineSegments(),
-            canvas = args.canvas,
+            context = args.context,
             previous = false,
             ii;
 
         for (ii = 0; ii < lines.length; ii += 1) {
-            lines[ii].draw({ canvas: canvas });
+            lines[ii].draw({ context: context });
         }
 
         return that;
     };
 
-    // To make drawing shapes easier, the canvas is divided up into a grid
+    // To make drawing shapes easier, the context is divided up into a grid
     // each square in the grid is a Flatland.Grid.
     // grid.resident is the shape occupying the grid
     // grid.busy is true if a shape is moving into or out of the square
@@ -316,17 +316,17 @@ Flatland = Flatland || {};
     };
 
     // Given a point and an angle
-    // a list of the lines bordering the canvas,
+    // a list of the lines bordering the context,
     // the drawing context,
     // and a list of shapes floating around,
-    // draws a line on the canvas to the closest intersection.
+    // draws a line on the context to the closest intersection.
     // Also returns the closest intersection.
     Flatland.getAndDrawIntersection = function (args) {
         var point = args.point,
             angle = args.angle,
             shapes = args.shapes,
             borders = args.borders,
-            canvas = args.canvas,
+            context = args.context,
             intersections = [],
             draw = args.draw,
             intersection,
@@ -369,9 +369,6 @@ Flatland = Flatland || {};
         }
 
         if (intersections.length > 0) {
-            //for (ii = 0; ii < intersections.length; ii += 1) {
-            //    canvas.fillRect(intersections[ii].intersection.x, intersections[ii].intersection.y, 5, 5);
-            //}
             min = intersections[0];
             for (ii = 0; ii < intersections.length; ii += 1) {
                 if (intersections[ii].distance < min.distance) {
@@ -384,7 +381,7 @@ Flatland = Flatland || {};
                 end: min.intersection
             });
             if (draw) {
-                line.draw({ canvas: canvas});
+                line.draw({ context: context});
             }
             return min;
         }

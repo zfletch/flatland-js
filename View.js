@@ -4,9 +4,9 @@ Flatland = Flatland || {};
 (function () {
     'use strict';
 
-    // View is an object representing the canvas where we draw
+    // View is an object representing the context where we draw
     // what it looks like from the square's perspective.
-    // The canvas should have the same width as the main canvas
+    // The context should have the same width as the main context
     // but the height can be different.
     Flatland.View = function (args) {
         var that = this;
@@ -40,12 +40,12 @@ Flatland = Flatland || {};
 
     // given a list of intersections (or objects with
     // distance (Number) and border (Bool) fields), draws
-    // draws to the canvas for each intersection. The closer
+    // draws to the context for each intersection. The closer
     // the object is, the darker it will be.
     Flatland.View.prototype.draw = function (args) {
         var that = this,
             intersections = args.intersections,
-            canvas = args.canvas,
+            context = args.context,
             distance,
             ii;
 
@@ -58,13 +58,13 @@ Flatland = Flatland || {};
                 distance = intersections[ii].distance;
             }
 
-            canvas.beginPath();
-            canvas.moveTo(that.step * ii, 0);
-            canvas.lineTo(that.step * ii, that.height);
-            canvas.lineWidth = that.step;
+            context.beginPath();
+            context.moveTo(that.step * ii, 0);
+            context.lineTo(that.step * ii, that.height);
+            context.lineWidth = that.step;
 
-            canvas.strokeStyle = that.getColor(distance);
-            canvas.stroke();
+            context.strokeStyle = that.getColor(distance);
+            context.stroke();
         }
 
         return that;
