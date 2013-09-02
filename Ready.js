@@ -10,7 +10,13 @@
             viewcontext = viewcanvas.getContext('2d'),
             view,
             swap,
-            move_speed = 5,
+            speedx = 0,
+            speedy = 0,
+            min_speed = -10,
+            max_speed = 10,
+            deceleration = 0.4,
+            acceleration = 1.0,
+            move,
             angle_speed = Math.PI / 30,
             width = canvas.width,
             height = canvas.height,
@@ -61,19 +67,62 @@
         // the right and left keys rotate the player
         // and the up and down keys move forwards and backwards
         window.document.onkeydown = function (e) {
-            var point = new Flatland.Point({ x: player.center.x, y: player.center.y });
             if (e.keyCode === 37) { // left
                 player.angle = Flatland.formatAngle(player.angle - angle_speed);
             } else if (e.keyCode === 38) { // up
-                point.x += move_speed * Math.cos(player.angle);
-                point.y += move_speed * Math.sin(player.angle);
+                speedx += acceleration * Math.cos(player.angle);
+                speedy += acceleration * Math.sin(player.angle);
             } else if (e.keyCode === 39) { // right
                 player.angle = Flatland.formatAngle(player.angle + angle_speed);
             } else if (e.keyCode === 40) { // down
-                point.x -= move_speed * Math.cos(player.angle);
-                point.y -= move_speed * Math.sin(player.angle);
+                speedx -= acceleration * Math.cos(player.angle);
+                speedy -= acceleration * Math.sin(player.angle);
             }
+        };
+
+        // moves the player on the canvas according to the speed
+        // and acceleration
+        move = function () {
+            var point,
+                slow_down;
+
+            if (speedx < min_speed) {
+                speedx = min_speed;
+            }
+            if (speedx > max_speed) {
+                speedx = max_speed;
+            }
+            if (speedy < min_speed) {
+                speedy = min_speed;
+            }
+            if (speedy > max_speed) {
+                speedy = max_speed;
+            }
+
+            point = new Flatland.Point({
+                x: player.center.x + speedx,
+                y: player.center.y + speedy
+            });
+
             player.center = set_point_in_bounds(player.center, point);
+
+            slow_down = function (speed) {
+                if (speed > 0) {
+                    speed -= deceleration;
+                    if (speed < 0) {
+                        speed = 0;
+                    }
+                } else if (speed < 0) {
+                    speed += deceleration;
+                    if (speed > 0) {
+                        speed = 0;
+                    }
+                }
+                return speed;
+            };
+
+            speedx = slow_down(speedx);
+            speedy = slow_down(speedy);
         };
 
         // the lines bordering the canvas
@@ -144,6 +193,9 @@
             // clear the canvases before doing anything
             context.clearRect(0, 0, canvas.width, canvas.height);
             viewcontext.clearRect(0, 0, viewcanvas.width, viewcanvas.height);
+
+            // move the player
+            move();
 
             player.draw({ context: context });
 
