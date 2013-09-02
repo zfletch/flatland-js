@@ -29,11 +29,10 @@ Pictures!
 ![screenshot 1](https://raw.github.com/zfletch/flatland-js/master/images/20130811-screenshot1.png)
 ![screenshot 2](https://raw.github.com/zfletch/flatland-js/master/images/20130811-screenshot2.png)
 
-How to use (OSX/Linux/Other \*nix)
-----------------------------------
+How to use
+----------
 
- - In the terminal, navigate to the directory you want to use
- - Type 'git clone https://github.com/zfletch/flatland-js'
+ - Download this git repo
  - Open a browser with HTML5 support (Chrome, for example) and open your/directory/flatland-js/Flatland.html
 
 Algorithm
