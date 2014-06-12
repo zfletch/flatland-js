@@ -1,7 +1,7 @@
 Things that need doing:
 
 - rename confusing variables (eg canvas -> context)
-- animation (using requestAnimFrame probably)
+- animation (using requestAnimFrame or a library)
 - populate shapes on start up instead of waiting for them to spawn and come on screen
 - better UI/controls
 - a few things are hard coded in the source that should be parameterized
