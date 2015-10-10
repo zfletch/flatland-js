@@ -34,6 +34,7 @@ How to use
 
  - Download this git repo
  - Open a browser with HTML5 support (Chrome, for example) and open your/directory/flatland-js/Flatland.html
+ - Try it [here](https://zfletch.github.io/flatland-js/)
 
 Algorithm
 ---------
