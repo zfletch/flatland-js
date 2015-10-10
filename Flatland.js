@@ -309,7 +309,9 @@ Flatland = Flatland || {};
 
         if (that.grid.center.x === that.center.x && that.grid.center.y === that.center.y) {
             that.grid.busy = false;
-            that.prev_grid.busy = false;
+            if (that.prev_grid) {
+                that.prev_grid.busy = false;
+            }
         }
 
         return Flatland.Shape.prototype.draw.apply(that, [args]);
